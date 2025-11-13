@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 Danh Sách Đơn Hàng 🐶</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/orders.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Floating decorations -->
+    <div class="decoration-container">
+        <div class="heart heart-1">💖</div>
+        <div class="heart heart-2">💕</div>
+        <div class="heart heart-3">💗</div>
+        <div class="heart heart-4">💝</div>
+        <div class="sparkle sparkle-1">✨</div>
+        <div class="sparkle sparkle-2">⭐</div>
+        <div class="sparkle sparkle-3">🌟</div>
+        <div class="sparkle sparkle-4">💫</div>
+    </div>
+
+    <!-- Cute animated dogs -->
+    <div class="dog-container">
+        <div class="dog dog-1">🐕</div>
+        <div class="dog dog-2">🐶</div>
+        <div class="dog dog-3">🦮</div>
+        <div class="dog dog-4">🐕‍🦺</div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="container orders-container">
+            <div class="header">
+                <h1 class="title">
+                    <span class="emoji-bounce">📦</span>
+                    Đơn hàng của bạn
+                    <span class="emoji-bounce">📦</span>
+                </h1>
+                <p class="subtitle">Xem tất cả đơn hàng đã đặt 💕</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="ordersLoading" class="orders-loading">
+                <div class="loading-spinner">🐶</div>
+                <p class="loading-text">Đang tải đơn hàng...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="ordersEmpty" class="orders-empty" style="display: none;">
+                <div class="empty-icon">🍽️</div>
+                <p class="empty-text">Chưa có đơn hàng nào</p>
+                <p class="empty-subtext">Hãy đặt món ngon nào! 💕</p>
+            </div>
+
+            <!-- Orders List -->
+            <div id="ordersList" class="orders-list" style="display: none;">
+                <!-- Orders will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Flowers decoration -->
+    <div class="flower flower-1">🌸</div>
+    <div class="flower flower-2">🌺</div>
+    <div class="flower flower-3">🌷</div>
+    <div class="flower flower-4">🌼</div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>
+
