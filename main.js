@@ -125,22 +125,49 @@ document.getElementById('foodOrderForm').addEventListener('submit', async functi
         }
     };
     
+    // Check if there's at least one field with text
+    const hasRestaurantLink = orderData.restaurant.link.trim() !== '';
+    const hasRestaurantNote = orderData.restaurant.note.trim() !== '';
+    const hasFoodItems = orderData.restaurant.foods.length > 0;
+    const hasAnyContent = hasRestaurantLink || hasRestaurantNote || hasFoodItems;
+    
     // Log the order data
     console.log('=== 🎀 ĐƠN HÀNG CỦA BẠN 🎀 ===');
     console.log(JSON.stringify(orderData, null, 2));
     
-    // Show loading
-    showLoading();
-    
-    // Save to Supabase
-    const result = await saveOrderToSupabase(orderData);
-    
-    // Hide loading
-    hideLoading();
-    
-    if (result.success) {
-        console.log('✅ Đơn hàng đã được lưu vào database!');
-        console.log('Order ID:', result.order.id);
+    if (hasAnyContent) {
+        // Show loading
+        showLoading();
+        
+        // Save to Supabase
+        const result = await saveOrderToSupabase(orderData);
+        
+        // Hide loading
+        hideLoading();
+        
+        if (result.success) {
+            console.log('✅ Đơn hàng đã được lưu vào database!');
+            console.log('Order ID:', result.order.id);
+            console.log('=== 💕 CẢM ƠN BẠN 💕 ===');
+            
+            // Show cute dialog
+            showOrderDialog();
+            
+            // Reset form
+            this.reset();
+            
+            // Reset food items to 1
+            const foodContainer = document.getElementById('food-items-container');
+            foodContainer.innerHTML = '';
+            foodCounter = 0;
+            addFoodItem();
+        } else {
+            console.error('❌ Lỗi khi lưu đơn hàng:', result.error);
+            alert('❌ Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại!');
+        }
+    } else {
+        // No content to save, just show animation
+        console.log('ℹ️ Không có nội dung để lưu, chỉ hiển thị animation');
         console.log('=== 💕 CẢM ƠN BẠN 💕 ===');
         
         // Show cute dialog
@@ -154,9 +181,6 @@ document.getElementById('foodOrderForm').addEventListener('submit', async functi
         foodContainer.innerHTML = '';
         foodCounter = 0;
         addFoodItem();
-    } else {
-        console.error('❌ Lỗi khi lưu đơn hàng:', result.error);
-        alert('❌ Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại!');
     }
 });
 
