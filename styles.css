@@ -1,0 +1,607 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #ffe5f5 25%, #ffd4f0 50%, #ffccf0 75%, #ffc4eb 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Decorations */
+.decoration-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart, .sparkle {
+    position: absolute;
+    font-size: 24px;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+.heart-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.heart-2 {
+    top: 20%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.heart-3 {
+    bottom: 15%;
+    left: 8%;
+    animation-delay: 2s;
+}
+
+.heart-4 {
+    bottom: 25%;
+    right: 12%;
+    animation-delay: 3s;
+}
+
+.sparkle-1 {
+    top: 30%;
+    left: 5%;
+    animation-delay: 0.5s;
+}
+
+.sparkle-2 {
+    top: 60%;
+    right: 8%;
+    animation-delay: 1.5s;
+}
+
+.sparkle-3 {
+    bottom: 40%;
+    left: 15%;
+    animation-delay: 2.5s;
+}
+
+.sparkle-4 {
+    top: 50%;
+    right: 5%;
+    animation-delay: 3.5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    50% {
+        transform: translateY(-40px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+/* Cute animated dogs */
+.dog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.dog {
+    position: absolute;
+    font-size: 40px;
+    animation: dogWalk 15s linear infinite;
+}
+
+.dog-1 {
+    top: 15%;
+    animation-delay: 0s;
+}
+
+.dog-2 {
+    top: 45%;
+    animation-delay: 5s;
+}
+
+.dog-3 {
+    top: 70%;
+    animation-delay: 10s;
+}
+
+.dog-4 {
+    top: 85%;
+    animation-delay: 7.5s;
+}
+
+@keyframes dogWalk {
+    0% {
+        left: -60px;
+        transform: scaleX(1) rotate(0deg);
+    }
+    25% {
+        transform: scaleX(1) rotate(-10deg);
+    }
+    50% {
+        left: 50%;
+        transform: scaleX(1) rotate(10deg);
+    }
+    75% {
+        transform: scaleX(1) rotate(-10deg);
+    }
+    100% {
+        left: calc(100% + 60px);
+        transform: scaleX(1) rotate(0deg);
+    }
+}
+
+/* Flowers */
+.flower {
+    position: fixed;
+    font-size: 35px;
+    animation: spin 10s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.flower-1 {
+    top: 5%;
+    left: 3%;
+}
+
+.flower-2 {
+    top: 8%;
+    right: 5%;
+    animation-delay: 2s;
+}
+
+.flower-3 {
+    bottom: 8%;
+    left: 5%;
+    animation-delay: 4s;
+}
+
+.flower-4 {
+    bottom: 5%;
+    right: 3%;
+    animation-delay: 6s;
+}
+
+@keyframes spin {
+    0%, 100% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+}
+
+/* Main Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+    border: 3px solid #ffb3d9;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.title {
+    font-family: 'Pacifico', cursive;
+    font-size: 42px;
+    color: #ff66b3;
+    text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
+    margin-bottom: 10px;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.emoji-bounce {
+    display: inline-block;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.emoji-bounce:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #ff99cc;
+    font-weight: 500;
+}
+
+/* Restaurant Section */
+.restaurant-section {
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f3 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    border: 2px dashed #ffb3d9;
+    position: relative;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.restaurant-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 24px;
+    color: #ff66b3;
+}
+
+.remove-restaurant-btn {
+    background: #ff9999;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.remove-restaurant-btn:hover {
+    background: #ff6666;
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ff66b3;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+label .emoji {
+    margin-right: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ffcceb;
+    border-radius: 15px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #ff66b3;
+    box-shadow: 0 0 15px rgba(255, 102, 179, 0.3);
+    transform: scale(1.02);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Food Items */
+.food-items-container {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.food-item {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ffe6f3;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.food-item:hover {
+    box-shadow: 0 5px 15px rgba(255, 102, 179, 0.2);
+    transform: translateY(-2px);
+}
+
+.food-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.food-item-title {
+    font-weight: 600;
+    color: #ff66b3;
+    font-size: 16px;
+}
+
+.remove-food-btn {
+    background: #ffb3d9;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.remove-food-btn:hover {
+    background: #ff99cc;
+    transform: scale(1.1);
+}
+
+.remove-food-btn.hidden {
+    display: none;
+}
+
+/* Add Buttons */
+.add-food-btn,
+.add-restaurant-btn {
+    background: linear-gradient(135deg, #ff99cc 0%, #ff66b3 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: 0 4px 15px rgba(255, 102, 179, 0.3);
+}
+
+.add-food-btn:hover,
+.add-restaurant-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 102, 179, 0.4);
+}
+
+.add-food-btn {
+    background: linear-gradient(135deg, #ffc4eb 0%, #ffb3d9 100%);
+}
+
+.btn-icon {
+    font-size: 20px;
+}
+
+.plus-icon {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Submit Section */
+.submit-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #ff66b3 0%, #ff3385 100%);
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: 0 6px 20px rgba(255, 51, 133, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 30px rgba(255, 51, 133, 0.5);
+    animation: rainbow 2s linear infinite;
+}
+
+@keyframes rainbow {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .dog {
+        font-size: 30px;
+    }
+
+    .heart, .sparkle {
+        font-size: 18px;
+    }
+
+    .flower {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px 8px;
+    }
+
+    .header {
+        margin-bottom: 12px;
+    }
+
+    .form-group  {
+        margin-bottom: 16px;
+    }
+
+    .container {
+        padding: 20px;
+        border-radius: 24px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .restaurant-section {
+        padding: 18px;
+    }
+
+    .restaurant-title {
+        font-size: 20px;
+    }
+
+    .food-items-container {
+        padding: 16px 12px 12px 12px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+        border-radius: 12px;
+    }
+
+    .food-item {
+        padding: 12px;
+    }
+
+    .food-item-title {
+        font-size: 14px;
+    }
+
+    .btn-icon,
+    .plus-icon {
+        font-size: 18px;
+    }
+
+    .add-food-btn,
+    .add-restaurant-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .submit-btn {
+        font-size: 16px;
+        padding: 12px 32px;
+    }
+
+    .dog {
+        font-size: 26px;
+    }
+
+    .heart,
+    .sparkle {
+        font-size: 16px;
+    }
+
+    .flower {
+        font-size: 20px;
+    }
+}
+
+/* Cute cursor effect */
+body {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">🐾</text></svg>'), auto;
+}
+
+button {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">💕</text></svg>'), pointer;
+}
+
+input, textarea {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">✨</text></svg>'), text;
+}
+
