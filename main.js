@@ -130,7 +130,64 @@ document.getElementById('foodOrderForm').addEventListener('submit', function(e) 
     console.log(JSON.stringify(orderData, null, 2));
     console.log('=== 💕 CẢM ƠN BẠN 💕 ===');
     
-    // Show cute alert
-    alert('✨ Đơn hàng đã được gửi! Kiểm tra console để xem chi tiết nhé! 🐶💕');
+    // Show cute dialog
+    showOrderDialog();
 });
+
+// Show order success dialog
+function showOrderDialog() {
+    const dialog = document.getElementById('orderSuccessDialog');
+    dialog.classList.add('show');
+    
+    // Add confetti effect
+    createConfetti();
+}
+
+// Close order dialog
+function closeOrderDialog() {
+    const dialog = document.getElementById('orderSuccessDialog');
+    dialog.classList.remove('show');
+}
+
+// Create confetti effect
+function createConfetti() {
+    const colors = ['💖', '💕', '💗', '💝', '✨', '⭐', '🌟', '💫', '🌸', '🌺', '🎀'];
+    const confettiCount = 30;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-50px';
+            confetti.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            confetti.style.zIndex = '10000';
+            confetti.style.pointerEvents = 'none';
+            confetti.textContent = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }, i * 100);
+    }
+}
+
+// Add confetti animation
+const confettiStyle = document.createElement('style');
+confettiStyle.textContent = `
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(confettiStyle);
 

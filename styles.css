@@ -673,3 +673,281 @@ input, textarea {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">✨</text></svg>'), text;
 }
 
+/* Cute Order Success Dialog */
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 182, 218, 0.9);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.dialog-overlay.show {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dialog-content {
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f5 50%, #ffd4f0 100%);
+    border-radius: 40px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 30px 80px rgba(255, 102, 179, 0.5);
+    border: 4px solid #ffb3d9;
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5) rotate(-10deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.dialog-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.sparkle-anim {
+    display: inline-block;
+    animation: sparkle 1s ease-in-out infinite;
+    margin: 0 8px;
+}
+
+.sparkle-anim:nth-child(2) {
+    animation-delay: 0.2s;
+    font-size: 40px;
+}
+
+.sparkle-anim:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+.dialog-body {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.success-icon {
+    font-size: 80px;
+    animation: successBounce 0.8s ease-out;
+    margin-bottom: 20px;
+}
+
+@keyframes successBounce {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.dialog-text {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ff66b3;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(255, 182, 218, 0.3);
+}
+
+.text-bounce {
+    display: inline-block;
+    animation: textBounce 0.8s ease-in-out infinite;
+    color: #ff3385;
+}
+
+@keyframes textBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.delivery-animation {
+    position: relative;
+    height: 80px;
+    margin: 30px 0;
+    overflow: hidden;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, 
+        #e6f3ff 0%, 
+        #e6f3ff 50%, 
+        #d4e8d4 50%, 
+        #d4e8d4 100%);
+}
+
+.delivery-road {
+    position: absolute;
+    bottom: 35px;
+    width: 100%;
+    height: 4px;
+    background: repeating-linear-gradient(
+        to right,
+        #ffcc99 0px,
+        #ffcc99 20px,
+        transparent 20px,
+        transparent 40px
+    );
+    animation: roadMove 1s linear infinite;
+}
+
+@keyframes roadMove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 40px 0;
+    }
+}
+
+.delivery-person {
+    position: absolute;
+    bottom: 20px;
+    left: -60px;
+    font-size: 50px;
+    animation: deliveryMove 3s ease-in-out infinite;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes deliveryMove {
+    0% {
+        left: -60px;
+        transform: scaleX(-1) scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scaleX(-1) scale(1.1) rotate(-5deg);
+    }
+    50% {
+        left: 50%;
+        transform: scaleX(-1) scale(1) rotate(5deg);
+    }
+    75% {
+        transform: scaleX(-1) scale(1.1) rotate(-5deg);
+    }
+    100% {
+        left: calc(100% + 60px);
+        transform: scaleX(-1) scale(1) rotate(0deg);
+    }
+}
+
+.dialog-close-btn {
+    background: linear-gradient(135deg, #ff99cc 0%, #ff66b3 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: 0 6px 20px rgba(255, 102, 179, 0.4);
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.dialog-close-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 102, 179, 0.6);
+}
+
+.dialog-close-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.dialog-close-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Responsive for dialog */
+@media (max-width: 480px) {
+    .dialog-content {
+        padding: 30px 20px;
+        border-radius: 30px;
+    }
+
+    .dialog-header {
+        font-size: 24px;
+    }
+
+    .success-icon {
+        font-size: 60px;
+    }
+
+    .dialog-text {
+        font-size: 20px;
+        line-height: 1.5;
+    }
+
+    .delivery-animation {
+        height: 60px;
+    }
+
+    .delivery-person {
+        font-size: 35px;
+        bottom: 15px;
+    }
+
+    .delivery-road {
+        bottom: 25px;
+    }
+
+    .dialog-close-btn {
+        font-size: 16px;
+        padding: 12px 30px;
+    }
+}
+
