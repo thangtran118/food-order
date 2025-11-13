@@ -8,9 +8,77 @@ body {
     font-family: 'Quicksand', sans-serif;
     background: linear-gradient(135deg, #ffeef8 0%, #ffe5f5 25%, #ffd4f0 50%, #ffccf0 75%, #ffc4eb 100%);
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 0;
     overflow-x: hidden;
     position: relative;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Pastel scrollbars */
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #ff8fc8 #ffe6f5;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #ffeef8, #ffd4f0);
+    border-radius: 999px;
+    border: 2px solid #ffccf0;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff99cc, #ff66b3);
+    border-radius: 999px;
+    border: 2px solid #ffe6f5;
+    box-shadow: 0 2px 6px rgba(255, 102, 179, 0.3);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff66b3, #ff3385);
+}
+
+.food-items-container {
+    scrollbar-width: thin;
+    scrollbar-color: #ff8fc8 #ffe6f5;
+}
+
+.food-items-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.food-items-container::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #fff4fb, #ffe0f3);
+    border-radius: 999px;
+    border: 2px solid #ffccf0;
+}
+
+.food-items-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff99cc, #ff66b3);
+    border-radius: 999px;
+    border: 2px solid #ffe6f5;
+    box-shadow: 0 2px 6px rgba(255, 102, 179, 0.25);
+}
+
+.food-items-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff66b3, #ff3385);
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 5;
 }
 
 /* Decorations */
@@ -505,7 +573,7 @@ textarea {
 }
 
 @media (max-width: 480px) {
-    body {
+    .page-wrapper {
         padding: 12px 8px;
     }
 
@@ -523,11 +591,11 @@ textarea {
     }
 
     .title {
-        font-size: 26px;
+        font-size: 30px;
     }
 
     .subtitle {
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.5;
     }
 
@@ -539,9 +607,9 @@ textarea {
         font-size: 20px;
     }
 
-    .food-items-container {
+    /* .food-items-container {
         padding: 16px 12px 12px 12px;
-    }
+    } */
 
     label {
         font-size: 14px;

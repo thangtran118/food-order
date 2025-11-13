@@ -30,56 +30,58 @@
         <div class="dog dog-4">🐕‍🦺</div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <h1 class="title">
-                <span class="emoji-bounce">🐾</span>
-                Đặt đồ ăn cùng Duyn
-                <span class="emoji-bounce">🐾</span>
-            </h1>
-            <p class="subtitle">Duyn siu deth á 💕 </p>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="header">
+                <h1 class="title">
+                    <span class="emoji-bounce">🐾</span>
+                    Đặt đồ ăn cùng Duyn
+                    <span class="emoji-bounce">🐾</span>
+                </h1>
+                <p class="subtitle">Duyn siu deth á 💕 </p>
+            </div>
+
+            <form id="foodOrderForm">
+                <div class="restaurant-section" id="main-restaurant">
+                    <div class="form-group">
+                        <label>
+                            <span class="emoji">🔗</span>
+                            Link quán
+                        </label>
+                        <input type="text"
+                               name="restaurant-link"
+                               placeholder="Ví dụ: https://grab.com/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="emoji">📝</span>
+                            Note cho quán
+                        </label>
+                        <textarea name="restaurant-note"
+                                  placeholder="Ví dụ: giao sớm giúp em, hạn chế cay..."></textarea>
+                    </div>
+
+                    <div class="food-items-container" id="food-items-container">
+                        <!-- Food items will be added here -->
+                    </div>
+
+                    <button type="button" class="add-food-btn" onclick="addFoodItem()">
+                        <span class="btn-icon">🍜</span>
+                        <span>Thêm món nữa nha</span>
+                        <span class="plus-icon">+</span>
+                    </button>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">
+                        <span>🎀</span>
+                        Gửi nè 💕
+                        <span>🎀</span>
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <form id="foodOrderForm">
-            <div class="restaurant-section" id="main-restaurant">
-                <div class="form-group">
-                    <label>
-                        <span class="emoji">🔗</span>
-                        Link quán
-                    </label>
-                    <input type="text"
-                           name="restaurant-link"
-                           placeholder="Ví dụ: https://grab.com/...">
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <span class="emoji">📝</span>
-                        Note cho quán
-                    </label>
-                    <textarea name="restaurant-note"
-                              placeholder="Ví dụ: giao sớm giúp em, hạn chế cay..."></textarea>
-                </div>
-
-                <div class="food-items-container" id="food-items-container">
-                    <!-- Food items will be added here -->
-                </div>
-
-                <button type="button" class="add-food-btn" onclick="addFoodItem()">
-                    <span class="btn-icon">🍜</span>
-                    <span>Thêm món nữa nha</span>
-                    <span class="plus-icon">+</span>
-                </button>
-            </div>
-
-            <div class="submit-section">
-                <button type="submit" class="submit-btn">
-                    <span>🎀</span>
-                    Gửi nè 💕
-                    <span>🎀</span>
-                </button>
-            </div>
-        </form>
     </div>
 
     <!-- Flowers decoration -->
