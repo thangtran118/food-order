@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- Floating decorations -->
@@ -90,6 +93,14 @@
     <div class="flower flower-3">🌷</div>
     <div class="flower flower-4">🌼</div>
 
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner">🐶</div>
+            <p class="loading-text">Đang gửi đơn hàng...</p>
+        </div>
+    </div>
+
     <!-- Cute Order Success Dialog -->
     <div id="orderSuccessDialog" class="dialog-overlay">
         <div class="dialog-content">
@@ -115,6 +126,7 @@
         </div>
     </div>
 
+    <script src="supabase-config.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -98,7 +98,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Handle form submission
-document.getElementById('foodOrderForm').addEventListener('submit', function(e) {
+document.getElementById('foodOrderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const formData = new FormData(this);
@@ -128,11 +128,49 @@ document.getElementById('foodOrderForm').addEventListener('submit', function(e) 
     // Log the order data
     console.log('=== 🎀 ĐƠN HÀNG CỦA BẠN 🎀 ===');
     console.log(JSON.stringify(orderData, null, 2));
-    console.log('=== 💕 CẢM ƠN BẠN 💕 ===');
     
-    // Show cute dialog
-    showOrderDialog();
+    // Show loading
+    showLoading();
+    
+    // Save to Supabase
+    const result = await saveOrderToSupabase(orderData);
+    
+    // Hide loading
+    hideLoading();
+    
+    if (result.success) {
+        console.log('✅ Đơn hàng đã được lưu vào database!');
+        console.log('Order ID:', result.order.id);
+        console.log('=== 💕 CẢM ƠN BẠN 💕 ===');
+        
+        // Show cute dialog
+        showOrderDialog();
+        
+        // Reset form
+        this.reset();
+        
+        // Reset food items to 1
+        const foodContainer = document.getElementById('food-items-container');
+        foodContainer.innerHTML = '';
+        foodCounter = 0;
+        addFoodItem();
+    } else {
+        console.error('❌ Lỗi khi lưu đơn hàng:', result.error);
+        alert('❌ Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại!');
+    }
 });
+
+// Show loading overlay
+function showLoading() {
+    const loading = document.getElementById('loadingOverlay');
+    loading.classList.add('show');
+}
+
+// Hide loading overlay
+function hideLoading() {
+    const loading = document.getElementById('loadingOverlay');
+    loading.classList.remove('show');
+}
 
 // Show order success dialog
 function showOrderDialog() {
