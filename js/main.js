@@ -58,9 +58,22 @@ function removeFoodItem(foodId) {
         foodItem.style.animation = 'slideOut 0.3s ease-out';
         setTimeout(() => {
             foodItem.remove();
+            renumberFoodItems();
             updateRemoveButtons();
         }, 300);
     }
+}
+
+// Renumber food items after deletion
+function renumberFoodItems() {
+    const foodItems = document.querySelectorAll('.food-item');
+    foodItems.forEach((item, index) => {
+        const orderNumber = index + 1;
+        const titleElement = item.querySelector('.food-item-title');
+        if (titleElement) {
+            titleElement.textContent = `🍽️ Món ${orderNumber}`;
+        }
+    });
 }
 
 function updateRemoveButtons() {
