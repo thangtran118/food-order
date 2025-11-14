@@ -1,3 +1,7 @@
+// Global variables
+let allOrders = [];
+let filteredOrders = [];
+
 // Load orders when page loads
 window.addEventListener('DOMContentLoaded', async function() {
     await loadOrders();
@@ -7,53 +11,166 @@ window.addEventListener('DOMContentLoaded', async function() {
 async function loadOrders() {
     const loading = document.getElementById('ordersLoading');
     const empty = document.getElementById('ordersEmpty');
-    const list = document.getElementById('ordersList');
+    const tableContainer = document.getElementById('ordersTableContainer');
 
     // Show loading
     loading.style.display = 'block';
     empty.style.display = 'none';
-    list.style.display = 'none';
+    tableContainer.style.display = 'none';
 
     try {
         // Fetch orders from Supabase
         const result = await getAllOrders();
 
         if (result.success && result.data && result.data.length > 0) {
-            // Hide loading, show list
+            allOrders = result.data;
+            filteredOrders = [...allOrders];
+            
+            // Update statistics
+            updateStatistics();
+            
+            // Apply default sorting (newest first)
+            applySorting();
+            
+            // Hide loading, show table
             loading.style.display = 'none';
-            list.style.display = 'block';
-
-            // Render orders
-            renderOrders(result.data);
+            tableContainer.style.display = 'block';
         } else {
             // No orders found
             loading.style.display = 'none';
             empty.style.display = 'block';
+            allOrders = [];
+            filteredOrders = [];
+            updateStatistics();
         }
     } catch (error) {
         console.error('Error loading orders:', error);
         loading.style.display = 'none';
         empty.style.display = 'block';
+        allOrders = [];
+        filteredOrders = [];
+        updateStatistics();
     }
 }
 
-// Function to render orders
-function renderOrders(orders) {
-    const list = document.getElementById('ordersList');
-    list.innerHTML = '';
+// Function to update statistics
+function updateStatistics() {
+    const totalOrders = allOrders.length;
+    
+    // Calculate today's orders
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayOrders = allOrders.filter(order => {
+        const orderDate = new Date(order.created_at);
+        orderDate.setHours(0, 0, 0, 0);
+        return orderDate.getTime() === today.getTime();
+    }).length;
+    
+    // Calculate total items
+    const totalItems = allOrders.reduce((sum, order) => {
+        return sum + (order.order_items ? order.order_items.length : 0);
+    }, 0);
+    
+    // Update UI
+    document.getElementById('totalOrders').textContent = totalOrders;
+    document.getElementById('todayOrders').textContent = todayOrders;
+    document.getElementById('totalItems').textContent = totalItems;
+}
 
-    orders.forEach((order, index) => {
-        const orderCard = createOrderCard(order, index + 1);
-        list.appendChild(orderCard);
+// Function to apply date filter
+function applyDateFilter() {
+    const dateFrom = document.getElementById('filterDateFrom').value;
+    const dateTo = document.getElementById('filterDateTo').value;
+    
+    if (!dateFrom && !dateTo) {
+        filteredOrders = [...allOrders];
+    } else {
+        filteredOrders = allOrders.filter(order => {
+            const orderDate = new Date(order.created_at);
+            orderDate.setHours(0, 0, 0, 0);
+            
+            if (dateFrom && dateTo) {
+                const fromDate = new Date(dateFrom);
+                const toDate = new Date(dateTo);
+                return orderDate >= fromDate && orderDate <= toDate;
+            } else if (dateFrom) {
+                const fromDate = new Date(dateFrom);
+                return orderDate >= fromDate;
+            } else if (dateTo) {
+                const toDate = new Date(dateTo);
+                return orderDate <= toDate;
+            }
+            return true;
+        });
+    }
+    
+    applySorting();
+}
+
+// Function to clear date filter
+function clearDateFilter() {
+    document.getElementById('filterDateFrom').value = '';
+    document.getElementById('filterDateTo').value = '';
+    filteredOrders = [...allOrders];
+    applySorting();
+}
+
+// Function to apply sorting
+function applySorting() {
+    const sortValue = document.getElementById('sortSelect').value;
+    
+    switch(sortValue) {
+        case 'newest':
+            filteredOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            break;
+        case 'oldest':
+            filteredOrders.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            break;
+        case 'most-items':
+            filteredOrders.sort((a, b) => {
+                const aItems = a.order_items ? a.order_items.length : 0;
+                const bItems = b.order_items ? b.order_items.length : 0;
+                return bItems - aItems;
+            });
+            break;
+        case 'least-items':
+            filteredOrders.sort((a, b) => {
+                const aItems = a.order_items ? a.order_items.length : 0;
+                const bItems = b.order_items ? b.order_items.length : 0;
+                return aItems - bItems;
+            });
+            break;
+    }
+    
+    renderOrders();
+}
+
+// Function to render orders
+function renderOrders() {
+    const tableContainer = document.getElementById('ordersTableContainer');
+    const tableBody = document.getElementById('ordersTableBody');
+    const empty = document.getElementById('ordersEmpty');
+    
+    if (filteredOrders.length === 0) {
+        tableContainer.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+    }
+    
+    tableContainer.style.display = 'block';
+    empty.style.display = 'none';
+    tableBody.innerHTML = '';
+    
+    filteredOrders.forEach((order, index) => {
+        const orderRow = createOrderRow(order, index + 1);
+        tableBody.appendChild(orderRow);
     });
 }
 
-// Function to create order card
-function createOrderCard(order, orderNumber) {
-    const card = document.createElement('div');
-    card.className = 'order-card';
-    card.style.animationDelay = `${orderNumber * 0.1}s`;
-
+// Function to create order row
+function createOrderRow(order, orderNumber) {
+    const row = document.createElement('tr');
+    
     // Format date
     const date = new Date(order.created_at);
     const formattedDate = date.toLocaleString('vi-VN', {
@@ -63,53 +180,54 @@ function createOrderCard(order, orderNumber) {
         hour: '2-digit',
         minute: '2-digit'
     });
-
+    
     // Create foods list HTML
     let foodsHTML = '';
     if (order.order_items && order.order_items.length > 0) {
-        foodsHTML = order.order_items.map(item => `
-            <div class="food-item-view">
-                <div class="food-name">🍽️ ${escapeHtml(item.food_name)}</div>
-                ${item.food_note ? `<div class="food-note">💬 ${escapeHtml(item.food_note)}</div>` : ''}
+        foodsHTML = `
+            <div class="food-items-list">
+                ${order.order_items.map(item => `
+                    <div class="food-item">
+                        <div class="food-name">${escapeHtml(item.food_name)}</div>
+                        ${item.food_note ? `<div class="food-note">${escapeHtml(item.food_note)}</div>` : ''}
+                    </div>
+                `).join('')}
             </div>
-        `).join('');
+            <div style="margin-top: 8px;">
+                <span class="items-count-badge">${order.order_items.length} món</span>
+            </div>
+        `;
     } else {
-        foodsHTML = '<div class="no-items">Không có món nào</div>';
+        foodsHTML = '<span class="no-data">Không có món</span>';
     }
-
-    card.innerHTML = `
-        <div class="order-card-header">
-            <div class="order-number">Đơn hàng #${orderNumber}</div>
-            <div class="order-date">🕐 ${formattedDate}</div>
-        </div>
-
-        ${order.restaurant_link ? `
-            <div class="order-restaurant-link">
-                <div class="order-label">🔗 Link quán:</div>
-                <a href="${escapeHtml(order.restaurant_link)}" target="_blank" class="restaurant-link">
-                    ${escapeHtml(order.restaurant_link)}
-                </a>
-            </div>
-        ` : ''}
-
-        ${order.restaurant_note ? `
-            <div class="order-restaurant-note">
-                <div class="order-label">📝 Note cho quán:</div>
-                <div class="restaurant-note">${escapeHtml(order.restaurant_note)}</div>
-            </div>
-        ` : ''}
-
-        <div class="order-foods">
-            <div class="order-label">🍜 Món ăn:</div>
-            <div class="order-foods-list">
-                ${foodsHTML}
-            </div>
-        </div>
-
-        <div class="order-id">ID: ${order.id.substring(0, 8)}...</div>
+    
+    // Create restaurant link HTML
+    const linkHTML = order.restaurant_link 
+        ? `<a href="${escapeHtml(order.restaurant_link)}" target="_blank">${escapeHtml(truncateUrl(order.restaurant_link, 30))}</a>`
+        : '<span class="no-data">-</span>';
+    
+    // Create note HTML
+    const noteHTML = order.restaurant_note 
+        ? escapeHtml(order.restaurant_note)
+        : '<span class="no-data">-</span>';
+    
+    row.innerHTML = `
+        <td class="order-number-cell">#${orderNumber}</td>
+        <td class="order-date-cell">${formattedDate}</td>
+        <td class="order-link-cell">${linkHTML}</td>
+        <td class="order-note-cell">${noteHTML}</td>
+        <td class="order-foods-cell">${foodsHTML}</td>
     `;
+    
+    return row;
+}
 
-    return card;
+// Function to truncate URL for display
+function truncateUrl(url, maxLength = 35) {
+    if (url.length > maxLength) {
+        return url.substring(0, maxLength) + '...';
+    }
+    return url;
 }
 
 // Function to escape HTML to prevent XSS
@@ -121,6 +239,11 @@ function escapeHtml(text) {
 
 // Refresh button functionality
 function refreshOrders() {
+    // Clear filters
+    document.getElementById('filterDateFrom').value = '';
+    document.getElementById('filterDateTo').value = '';
+    document.getElementById('sortSelect').value = 'newest';
+    
+    // Reload orders
     loadOrders();
 }
-

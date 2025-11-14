@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📦 Danh Sách Đơn Hàng 🐶</title>
+    <title>📊 Admin Dashboard - Quản Lý Đơn Hàng</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/orders.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,63 +13,131 @@
     <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
-    <!-- Floating decorations -->
-    <div class="decoration-container">
-        <div class="heart heart-1">💖</div>
-        <div class="heart heart-2">💕</div>
-        <div class="heart heart-3">💗</div>
-        <div class="heart heart-4">💝</div>
-        <div class="sparkle sparkle-1">✨</div>
-        <div class="sparkle sparkle-2">⭐</div>
-        <div class="sparkle sparkle-3">🌟</div>
-        <div class="sparkle sparkle-4">💫</div>
-    </div>
+<body class="dashboard-body">
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-logo">🍜 Food Order</h2>
+                <p class="sidebar-subtitle">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="index.html" class="nav-item">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-text">Đặt đơn mới</span>
+                </a>
+            </nav>
+        </aside>
 
-    <!-- Cute animated dogs -->
-    <div class="dog-container">
-        <div class="dog dog-1">🐕</div>
-        <div class="dog dog-2">🐶</div>
-        <div class="dog dog-3">🦮</div>
-        <div class="dog dog-4">🐕‍🦺</div>
-    </div>
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <h1 class="dashboard-title">📊 Quản Lý Đơn Hàng</h1>
+                    <p class="dashboard-subtitle">Xem và quản lý tất cả đơn hàng</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn-refresh" onclick="refreshOrders()">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">Làm mới</span>
+                    </button>
+                </div>
+            </div>
 
-    <div class="page-wrapper">
-        <div class="container orders-container">
-            <div class="header">
-                <h1 class="title">
-                    <span class="emoji-bounce">📦</span>
-                    Đơn hàng của bạn
-                    <span class="emoji-bounce">📦</span>
-                </h1>
-                <p class="subtitle">Xem tất cả đơn hàng đã đặt 💕</p>
+            <!-- Statistics Cards -->
+            <div class="stats-container" id="statsContainer">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="totalOrders">0</h3>
+                        <p class="stat-label">Tổng đơn hàng</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="todayOrders">0</h3>
+                        <p class="stat-label">Đơn hôm nay</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🍽️</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="totalItems">0</h3>
+                        <p class="stat-label">Tổng món ăn</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Controls -->
+            <div class="controls-container">
+                <div class="filter-group">
+                    <label class="filter-label">
+                        <span class="filter-icon">📅</span>
+                        Lọc theo ngày:
+                    </label>
+                    <div class="date-filters">
+                        <input type="date" id="filterDateFrom" class="date-input" placeholder="Từ ngày">
+                        <span class="date-separator">-</span>
+                        <input type="date" id="filterDateTo" class="date-input" placeholder="Đến ngày">
+                        <button class="btn-filter" onclick="applyDateFilter()">Lọc</button>
+                        <button class="btn-clear" onclick="clearDateFilter()">Xóa</button>
+                    </div>
+                </div>
+                
+                <div class="sort-group">
+                    <label class="filter-label">
+                        <span class="filter-icon">🔽</span>
+                        Sắp xếp:
+                    </label>
+                    <select id="sortSelect" class="sort-select" onchange="applySorting()">
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="most-items">Nhiều món nhất</option>
+                        <option value="least-items">Ít món nhất</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Loading State -->
             <div id="ordersLoading" class="orders-loading">
-                <div class="loading-spinner">🐶</div>
-                <p class="loading-text">Đang tải đơn hàng...</p>
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <p class="loading-text">Đang tải dữ liệu...</p>
             </div>
 
             <!-- Empty State -->
             <div id="ordersEmpty" class="orders-empty" style="display: none;">
-                <div class="empty-icon">🍽️</div>
-                <p class="empty-text">Chưa có đơn hàng nào</p>
-                <p class="empty-subtext">Hãy đặt món ngon nào! 💕</p>
+                <div class="empty-icon">📭</div>
+                <p class="empty-text">Không tìm thấy đơn hàng</p>
+                <p class="empty-subtext">Thử thay đổi bộ lọc hoặc tạo đơn hàng mới</p>
             </div>
 
-            <!-- Orders List -->
-            <div id="ordersList" class="orders-list" style="display: none;">
-                <!-- Orders will be inserted here -->
+            <!-- Orders Table -->
+            <div id="ordersTableContainer" class="orders-table-container" style="display: none;">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Số TT</th>
+                            <th>Thời gian</th>
+                            <th>Link quán</th>
+                            <th>Note quán</th>
+                            <th>Món ăn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be inserted here -->
+                    </tbody>
+                </table>
             </div>
-        </div>
+        </main>
     </div>
-
-    <!-- Flowers decoration -->
-    <div class="flower flower-1">🌸</div>
-    <div class="flower flower-2">🌺</div>
-    <div class="flower flower-3">🌷</div>
-    <div class="flower flower-4">🌼</div>
 
     <script src="js/supabase-config.js"></script>
     <script src="js/orders.js"></script>
